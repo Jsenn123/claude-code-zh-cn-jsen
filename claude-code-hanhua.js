@@ -1,71 +1,50 @@
-import fs from "fs";
+import fs from 'fs';
 
 const path = process.argv[2];
 // 备份原文件
-const backupPath = path + ".bak";
+const backupPath = path + '.bak';
 // 3. 增强备份逻辑（不要覆盖已有的备份）
 if (!fs.existsSync(backupPath)) {
   fs.cpSync(path, backupPath);
 }
 
-if (process.argv.includes("reset")) {
+if (process.argv.includes('reset')) {
   if (fs.existsSync(backupPath)) {
     try {
       // 将备份文件覆盖回原文件
       fs.copyFileSync(backupPath, path);
       // 可选：还原后删除备份文件，保持环境整洁
       // fs.unlinkSync(backupPath);
-      console.log("[INFO] ✅ 已从备份文件还原成功");
+      console.log('[INFO] ✅ 已从备份文件还原成功');
     } catch (err) {
-      console.error("[ERROR] 还原失败:", err.message);
+      console.error('[ERROR] 还原失败:', err.message);
     }
   } else {
-    console.warn("[WARN] ⚠️ 未发现备份文件 (.bak)，无法自动还原。");
+    console.warn('[WARN] ⚠️ 未发现备份文件 (.bak)，无法自动还原。');
   }
-  console.log("[INFO] ✅ 以还原");
+  console.log('[INFO] ✅ 以还原');
   process.exit(0);
 }
 
 // 读取上面的内容
-let content = fs.readFileSync(path, "utf8");
+let content = fs.readFileSync(path, 'utf8');
 
 content = content
   .replace(`to focus or unfocus Claude`, `聚焦或取消聚焦 Claude 窗口`)
   .replace(`"Ask before edits"`, `"修改前询问"`)
   .replace(`"Edit automatically"`, `"自动编辑"`)
   .replace(`"Plan mode"`, `"计划模式"`)
-  .replace(
-    `Tired of repeating yourself? Tell Claude to remember what you\\u2019ve told it using CLAUDE.md.`,
-    `无需重复指令。通过 CLAUDE.md 记录已知信息，让 Claude 拥有持久记忆。`,
-  )
+  .replace(`Tired of repeating yourself? Tell Claude to remember what you\\u2019ve told it using CLAUDE.md.`, `无需重复指令。通过 CLAUDE.md 记录已知信息，让 Claude 拥有持久记忆。`)
   .replace(`"Ready to code?"`, `"准备好开始写代码了吗？"`)
-  .replace(
-    `"Let's write something worth deploying."`,
-    `"别写烂代码了，写点能跑上线的吧。"`,
-  )
-  .replace(
-    `"// TODO: Everything. Let\\u2019s start."`,
-    `"// TODO: 万事待兴。开始吧。"`,
-  )
-  .replace(
-    `"Type /model to pick the right tool for the job."`,
-    `"输入 /model，为当前任务选择合适的工具。"`,
-  )
-  .replace(
-    `"Use planning mode to talk through big changes before a commit. Press"`,
-    `"在提交代码前，使用计划模式讨论重大变更。按下"`,
-  )
+  .replace(`"Let's write something worth deploying."`, `"别写烂代码了，写点能跑上线的吧。"`)
+  .replace(`"// TODO: Everything. Let\\u2019s start."`, `"// TODO: 万事待兴。开始吧。"`)
+  .replace(`"Type /model to pick the right tool for the job."`, `"输入 /model，为当前任务选择合适的工具。"`)
+  .replace(`"Use planning mode to talk through big changes before a commit. Press"`, `"在提交代码前，使用计划模式讨论重大变更。按下"`)
   .replace(`"to cycle between modes."`, `"以切换模式。"`)
   .replace(`"Highlight any text and press"`, `"选中文本并按下"`)
   .replace(`"to chat about it"`, `"来讨论它。"`)
-  .replace(
-    `"Make a CLAUDE.md file for instructions Claude will read every single time."`,
-    `"创建一个 CLAUDE.md 文件，用于存放 Claude 每次都会读取的指令。"`,
-  )
-  .replace(
-    `"You\\u2019ve come to the absolutely right place!"`,
-    `"你绝对找对地方了！"`,
-  )
+  .replace(`"Make a CLAUDE.md file for instructions Claude will read every single time."`, `"创建一个 CLAUDE.md 文件，用于存放 Claude 每次都会读取的指令。"`)
+  .replace(`"You\\u2019ve come to the absolutely right place!"`, `"你绝对找对地方了！"`)
   .replace(`"Prefer the Terminal experience?"`, `"更倾向于终端体验？"`)
   .replace(`"Switch back in Settings."`, `"可在设置中切回。"`)
   .replace(`"Files & Folders"`, `"文件和文件夹"`)
@@ -77,17 +56,11 @@ content = content
   .replace(`"MCP status"`, `"MCP 状态"`)
   .replace(`"Manage plugins"`, `"管理插件"`)
   .replace(`"General config\\u2026"`, `"通用配置..."`)
-  .replace(
-    `"Open Claude Code Extension configuration"`,
-    `"打开 Claude Code 扩展配置"`,
-  )
+  .replace(`"Open Claude Code Extension configuration"`, `"打开 Claude Code 扩展配置"`)
   .replace(`"View help docs"`, `"查看帮助文档"`)
   .replace(`"Open help documentation"`, `"打开帮助文档"`)
   .replace(`"Open Claude in Terminal"`, `"在终端中打开 Claude"`)
-  .replace(
-    `"Open a new Claude instance in the Terminal"`,
-    `"在终端中开启新的 Claude 实例"`,
-  )
+  .replace(`"Open a new Claude instance in the Terminal"`, `"在终端中开启新的 Claude 实例"`)
   .replaceAll(`"Thinking"`, `"深度思考"`)
   .replace(`"Extended thinking is on"`, `"深度思考已开启"`)
   .replace(`"Extended thinking is off"`, `"深度思考已关闭"`)
@@ -103,53 +76,23 @@ content = content
   .replace(`"Ask Claude to edit\\u2026"`, `"请求 Claude 进行编辑..."`)
   .replace(`"Plugins"`, `"插件"`)
   .replace(`"Continue in Terminal to manage plugins?"`, `"前往终端管理插件？"`)
-  .replace(
-    `"After installing plugins, reload this extension to use them here."`,
-    `"安装插件后，请重新加载扩展以在此使用。"`,
-  )
+  .replace(`"After installing plugins, reload this extension to use them here."`, `"安装插件后，请重新加载扩展以在此使用。"`)
   .replaceAll(`"Manage MCP servers"`, `"管理 MCP 服务器"`)
   .replace(`"Output styles"`, `"输出样式"`)
-  .replace(
-    `"Continue in Terminal to change output style?"`,
-    `"前往终端更改输出样式？"`,
-  )
-  .replace(
-    `"After changing your output style in Terminal and reloading this extension, you'll be able to use it here."`,
-    `"在终端修改输出样式并重载扩展后，即可在此生效。"`,
-  )
+  .replace(`"Continue in Terminal to change output style?"`, `"前往终端更改输出样式？"`)
+  .replace(`"After changing your output style in Terminal and reloading this extension, you'll be able to use it here."`, `"在终端修改输出样式并重载扩展后，即可在此生效。"`)
   .replace(`"Agents"`, `"智能体 (Agents)"`)
-  .replace(
-    `"Continue in Terminal to configure agents?"`,
-    `"前往终端配置智能体？"`,
-  )
-  .replace(
-    `"Once agents are configured in Terminal, you can reload this extension and ask Claude to use them here."`,
-    `"在终端配置完成后，重载扩展即可在此调用智能体。"`,
-  )
+  .replace(`"Continue in Terminal to configure agents?"`, `"前往终端配置智能体？"`)
+  .replace(`"Once agents are configured in Terminal, you can reload this extension and ask Claude to use them here."`, `"在终端配置完成后，重载扩展即可在此调用智能体。"`)
   .replace(`"Hooks"`, `"钩子 (Hooks)"`)
-  .replace(
-    `"Continue in Terminal to configure hooks?"`,
-    `"前往终端配置 Hooks？"`,
-  )
-  .replace(
-    `"Once hooks are configured in this repository, they'll be active in your IDE, too."`,
-    `"在此仓库配置 Hooks 后，它们也会在 IDE 中生效。"`,
-  )
+  .replace(`"Continue in Terminal to configure hooks?"`, `"前往终端配置 Hooks？"`)
+  .replace(`"Once hooks are configured in this repository, they'll be active in your IDE, too."`, `"在此仓库配置 Hooks 后，它们也会在 IDE 中生效。"`)
   .replace(`"Memory"`, `"记忆 (Memory)"`)
   .replace(`"Continue in Terminal to edit memory?"`, `"前往终端编辑记忆内容？"`)
-  .replace(
-    `"Once configured, memories will be picked up by Claude Code here in your IDE."`,
-    `"配置完成后，Claude Code 将在 IDE 中同步你的记忆内容。"`,
-  )
+  .replace(`"Once configured, memories will be picked up by Claude Code here in your IDE."`, `"配置完成后，Claude Code 将在 IDE 中同步你的记忆内容。"`)
   .replace(`"Permissions"`, `"权限管理"`)
-  .replace(
-    `"Continue in Terminal to manage permissions?"`,
-    `"前往终端管理权限？"`,
-  )
-  .replace(
-    `"Permission settings are shared between Terminal and this IDE."`,
-    `"权限设置在终端与 IDE 之间共享。"`,
-  )
+  .replace(`"Continue in Terminal to manage permissions?"`, `"前往终端管理权限？"`)
+  .replace(`"Permission settings are shared between Terminal and this IDE."`, `"权限设置在终端与 IDE 之间共享。"`)
   .replace(`"Loading MCP servers\\u2026"`, `"正在加载 MCP 服务器..."`)
   .replace(`"No running MCP servers."`, `"没有运行中的 MCP 服务器。"`)
   .replace(`"Clear conversation"`, `"清空对话"`)
@@ -159,10 +102,7 @@ content = content
   .replace(`"Resume conversation"`, `"恢复对话"`)
   .replace(`"Switch account"`, `"切换账户"`)
   .replace(`"Flag model behavior (internal)"`, `"标记模型行为 (内部)"`)
-  .replace(
-    `"Report model issues to the research team"`,
-    `"向研究团队报告模型问题"`,
-  )
+  .replace(`"Report model issues to the research team"`, `"向研究团队报告模型问题"`)
   .replace(`"Share with team (internal)"`, `"分享给团队 (内部)"`)
   .replace(`"Share conversation with team members"`, `"与团队成员分享对话"`)
   .replace(`"Reset onboarding [internal]"`, `"重置新手引导 [内部]"`)
@@ -170,16 +110,10 @@ content = content
   .replace(`"Show command menu (/)"`, `"显示命令菜单 (/)"`)
   .replace(`"Adding\\u2026"`, `"正在添加..."`)
   .replace(`"Add"`, `"添加"`)
-  .replace(
-    `"No marketplaces configured. Add one above to discover plugins."`,
-    `"尚未配置市场。请在上方添加一个市场以探索插件。"`,
-  )
+  .replace(`"No marketplaces configured. Add one above to discover plugins."`, `"尚未配置市场。请在上方添加一个市场以探索插件。"`)
   .replaceAll(`"Press"`, `"按下"`)
   .replace(`"to automatically approve code edits"`, `"以自动批准代码修改"`)
-  .replace(
-    `"Use Claude Code in the terminal to configure MCP servers. They\\u2019ll work here, too!"`,
-    `"在终端中使用 Claude Code 配置 MCP 服务器，设置也会在此处生效！"`,
-  )
+  .replace(`"Use Claude Code in the terminal to configure MCP servers. They\\u2019ll work here, too!"`, `"在终端中使用 Claude Code 配置 MCP 服务器，设置也会在此处生效！"`)
   .replaceAll(`"Past conversations"`, `"历史对话"`)
   .replace(`"New session"`, `"开启新会话"`)
   .replace(`Claude is requesting permission to use`, `Claude 正在请求使用权限`)
@@ -193,23 +127,11 @@ content = content
     `"Claude will explore the code and present a plan before editing. Click, or press Shift+Tab, to switch modes."`,
     `"Claude 将探索代码并在编辑前提供方案。点击或按 Shift+Tab 切换模式。"`,
   )
-  .replace(
-    `"Claude Code will not ask for your approval before running potentially dangerous commands."`,
-    `"Claude Code 在执行潜在危险命令前将不再请求您的批准。"`,
-  )
-  .replace(
-    `"Claude will ask before each edit. Click, or press Shift+Tab, to switch modes."`,
-    `"Claude 将在每次编辑前进行询问。点击或按 Shift+Tab 切换模式。"`,
-  )
+  .replace(`"Claude Code will not ask for your approval before running potentially dangerous commands."`, `"Claude Code 在执行潜在危险命令前将不再请求您的批准。"`)
+  .replace(`"Claude will ask before each edit. Click, or press Shift+Tab, to switch modes."`, `"Claude 将在每次编辑前进行询问。点击或按 Shift+Tab 切换模式。"`)
   .replace(`"Bypass permissions"`, `"绕过权限验证"`)
-  .replace(
-    `Not showing Claude your current file selection`,
-    `不向 Claude 显示当前选中的文件`,
-  )
-  .replace(
-    `Showing Claude your current file selection`,
-    `正在向 Claude 显示当前选中的文件`,
-  )
+  .replace(`Not showing Claude your current file selection`, `不向 Claude 显示当前选中的文件`)
+  .replace(`Showing Claude your current file selection`, `正在向 Claude 显示当前选中的文件`)
   .replace(`. Click to attach.`, `。点击以附加。`)
   .replace(`"Concocting"`, `"正在构思"`)
   .replace(`"Forging"`, `"正在生成代码"`)
@@ -343,17 +265,35 @@ content = content
   .replace(`"Claude will not ask for approval before running potentially dangerous commands"`, `"Claude 在执行潜在危险命令前不会请求批准"`)
   .replace(`"Fable 5 was included in your plan for a limited time, and now requires usage credits."`, `"Fable 5 曾在限时内包含在您的计划中，现在需要使用额度。"`)
   .replace(`"After making changes, exit Claude in Terminal, and reload the IDE extension to use them here."`, `"在终端中做出更改后，退出 Claude 并重新加载 IDE 扩展即可在此生效。"`)
-  .replace(`"Output style is set via /config. After changing it in Terminal and reloading this extension, you'll be able to use it here."`, `"输出样式通过 /config 设置。在终端中更改并重载此扩展后，即可在此使用。"`)
-  .replace(`"Claude knows which file you're viewing in VS Code, and can see what's selected. Highlight code in the editor, then prompt Claude to edit it."`, `"Claude 知道您在 VS Code 中查看的文件，并能看到选中内容。在编辑器中高亮代码，然后提示 Claude 进行编辑。"`)
-  .replace(`"Press Shift-Tab twice, or click the mode picker twice, to cycle into Plan Mode. This forces Claude to write a detailed plan before it can edit any code."`, `"按两次 Shift-Tab，或点击两次模式选择器，切换到计划模式。这将强制 Claude 在编辑任何代码之前编写详细的计划。"`)
-  .replace(`"By default, Claude asks you before editing a file. Press Shift-Tab or click the mode picker to switch to Auto-Accept mode. Then, send a prompt and watch Claude edit without stopping!"`, `"默认情况下，Claude 在编辑文件前会询问您。按 Shift-Tab 或点击模式选择器可切换至自动接受模式。然后发送提示，看着 Claude 不停编辑！"`)
-  .replace(`"Create a CLAUDE.md file and add permanent instructions for Claude. Every time you prompt Claude, it'll receive these instructions. Include rules for how to interact, coding norms, and details about your project."`, `"创建 CLAUDE.md 文件并添加永久性指令。每次向 Claude 发出提示时，它都会收到这些指令。包括交互规则、编码规范和项目详情。"`)
+  .replace(
+    `"Output style is set via /config. After changing it in Terminal and reloading this extension, you'll be able to use it here."`,
+    `"输出样式通过 /config 设置。在终端中更改并重载此扩展后，即可在此使用。"`,
+  )
+  .replace(
+    `"Claude knows which file you're viewing in VS Code, and can see what's selected. Highlight code in the editor, then prompt Claude to edit it."`,
+    `"Claude 知道您在 VS Code 中查看的文件，并能看到选中内容。在编辑器中高亮代码，然后提示 Claude 进行编辑。"`,
+  )
+  .replace(
+    `"Press Shift-Tab twice, or click the mode picker twice, to cycle into Plan Mode. This forces Claude to write a detailed plan before it can edit any code."`,
+    `"按两次 Shift-Tab，或点击两次模式选择器，切换到计划模式。这将强制 Claude 在编辑任何代码之前编写详细的计划。"`,
+  )
+  .replace(
+    `"By default, Claude asks you before editing a file. Press Shift-Tab or click the mode picker to switch to Auto-Accept mode. Then, send a prompt and watch Claude edit without stopping!"`,
+    `"默认情况下，Claude 在编辑文件前会询问您。按 Shift-Tab 或点击模式选择器可切换至自动接受模式。然后发送提示，看着 Claude 不停编辑！"`,
+  )
+  .replace(
+    `"Create a CLAUDE.md file and add permanent instructions for Claude. Every time you prompt Claude, it'll receive these instructions. Include rules for how to interact, coding norms, and details about your project."`,
+    `"创建 CLAUDE.md 文件并添加永久性指令。每次向 Claude 发出提示时，它都会收到这些指令。包括交互规则、编码规范和项目详情。"`,
+  )
   .replace(`"This session was started on a different branch. Switch to continue with the original context."`, `"此会话在另一个分支上启动。切换以使用原始上下文继续。"`)
   .replace(`"If the browser didn't open, visit this URL:"`, `"如果浏览器未打开，请访问此 URL："`)
   .replace(`"Or, paste your authorization code manually:"`, `"或者，手动粘贴授权码："`)
   .replace(`"If the redirect page shows a connection error, paste the URL from your browser's address bar:"`, `"如果重定向页面显示连接错误，请粘贴浏览器地址栏中的 URL："`)
   .replace(`"Re-launch the extension to continue."`, `"重新启动扩展以继续。"`)
-  .replace(`"Auto mode lets Claude handle permission prompts automatically. Claude checks each tool call for risky actions and prompt injection before executing, runs the ones it assesses as lower-risk, and blocks the rest."`, `"自动模式让 Claude 自动处理权限提示。Claude 在执行前检查每个工具调用的风险操作和提示注入，执行其评估为低风险的操作，并阻止其余操作。"`)
+  .replace(
+    `"Auto mode lets Claude handle permission prompts automatically. Claude checks each tool call for risky actions and prompt injection before executing, runs the ones it assesses as lower-risk, and blocks the rest."`,
+    `"自动模式让 Claude 自动处理权限提示。Claude 在执行前检查每个工具调用的风险操作和提示注入，执行其评估为低风险的操作，并阻止其余操作。"`,
+  )
   // === 第三轮补充 (v1.1.7) ===
   // 状态/进度
   .replaceAll(`"Completing authentication in browser…"`, `"正在浏览器中完成认证…"`)
@@ -413,6 +353,6 @@ content = content
   .replace(`"View and control this session from claude.ai/code"`, `"从 claude.ai/code 查看和控制此会话"`);
 
 // 写入回去
-fs.writeFileSync(path, content, "utf8");
+fs.writeFileSync(path, content, 'utf8');
 
-console.log("✅ Claude Code 扩展汉化补丁执行成功！");
+console.log('✅ Claude Code 扩展汉化补丁执行成功！');
