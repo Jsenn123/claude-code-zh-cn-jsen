@@ -8,3 +8,9 @@ vsc-extension-quickstart.md
 **/*.map
 **/.eslintrc.json
 **/.vscode-test.*
+claude-code-hanhua.js
+translations.json
+CLAUDE.md
+pnpm-lock.yaml
+.prettierrc.json
+.prettierignore
